@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel-Like Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        header {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        section {
+            margin-bottom: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            text-align: center;
+            padding: 8px;
+        }
+        input {
+            margin: 5px;
+            padding: 8px;
+            font-size: 14px;
+        }
+        button {
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>資料表</header>
+
+    <section id="input-section">
+        <h3>輸入表格的介面</h3>
+        <label for="user-id">使用者代號:</label>
+        <input type="text" id="user-id" placeholder="輸入 1232, 1256, 或 0087">
+        <label for="item-id">編號:</label>
+        <input type="number" id="item-id" placeholder="輸入 1 到 5">
+        <label for="data-value">文字資料:</label>
+        <input type="text" id="data-value" placeholder="輸入 N, N1, P4, O">
+        <button onclick="updateTable()">確定</button>
+    </section>
+
+    <section id="table-section">
+        <h3>輸入後呈現的表格</h3>
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1232</td>
+                    <td>N</td>
+                    <td>N</td>
+                    <td>N</td>
+                    <td>N</td>
+                    <td>N</td>
+                </tr>
+                <tr>
+                    <td>1256</td>
+                    <td>N</td>
+                    <td>N</td>
+                    <td>N</td>
+                    <td>N</td>
+                    <td>N</td>
+                </tr>
+                <tr>
+                    <td>0087</td>
+                    <td>N</td>
+                    <td>N</td>
+                    <td>N</td>
+                    <td>N</td>
+                    <td>N</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <script>
+        function updateTable() {
+            const userId = document.getElementById('user-id').value;
+            const itemId = parseInt(document.getElementById('item-id').value);
+            const dataValue = document.getElementById('data-value').value;
+
+            // Validate inputs
+            const validUserIds = ['1232', '1256', '0087'];
+            const validItemIds = [1, 2, 3, 4, 5];
+            const validDataValues = ['N', 'N1', 'P4', 'O'];
+
+            if (!validUserIds.includes(userId)) {
+                alert('請輸入有效的使用者代號!');
+                return;
+            }
+
+            if (!validItemIds.includes(itemId)) {
+                alert('請輸入有效的編號 (1-5)!');
+                return;
+            }
+
+            if (!validDataValues.includes(dataValue)) {
+                alert('請輸入有效的文字資料 (N, N1, P4, O)!');
+                return;
+            }
+
+            // Update table
+            const table = document.getElementById('data-table');
+            const rows = table.rows;
+            for (let i = 1; i < rows.length; i++) { // Start from 1 to skip the header row
+                const cell = rows[i].cells[0]; // First column is user ID
+                if (cell.textContent === userId) {
+                    rows[i].cells[itemId].textContent = dataValue;
+                    break;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
